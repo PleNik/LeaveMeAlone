@@ -33,6 +33,18 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cursor")
     FVector CursorSize = FVector(20.0f, 40.0f, 40.0f);
 
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Camera|Zoom",
+              meta = (ClampMin = "800.0", ClampMax = "1200.0"))
+    float ArmLengthMin = 1000.0f;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Camera|Zoom",
+              meta = (ClampMin = "1400.0", ClampMax = "1800.0"))
+    float ArmLengthMax = 1800.0f;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Camera|Zoom",
+              meta = (ClampMin = "10.0", ClampMax = "100.0"))
+    float Fluency = 25.0f;
+
 	virtual void BeginPlay() override;
 
 public:	
@@ -43,6 +55,9 @@ public:
 private:
     void MoveForward(float Value);
     void MoveRight(float Value);
+
+    void CameraZoomIn();
+    void CameraZoomOut();
 
     float YRotation = -75.0f;
     float ArmLength = 1400.0f;
