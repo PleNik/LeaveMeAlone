@@ -7,6 +7,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Components/LMAHealthComponent.h"
 
 ALMADefaultCharacter::ALMADefaultCharacter()
 {
@@ -24,6 +25,8 @@ ALMADefaultCharacter::ALMADefaultCharacter()
     CameraComponent->SetupAttachment(SpringArmComponent);
     CameraComponent->SetFieldOfView(FOV);
     CameraComponent->bUsePawnControlRotation = false;
+
+    HealthComponent = CreateDefaultSubobject<ULMAHealthComponent>("HealthComponent");
 
     bUseControllerRotationPitch = false;
     bUseControllerRotationYaw = false;

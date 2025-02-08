@@ -8,6 +8,7 @@
 
 class UCameraComponent;
 class USpringArmComponent;
+class ULMAHealthComponent;
 
 UCLASS()
 class LEAVEMEALONE_API ALMADefaultCharacter : public ACharacter
@@ -44,6 +45,9 @@ protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Camera|Zoom",
               meta = (ClampMin = "10.0", ClampMax = "100.0"))
     float Fluency = 25.0f;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components|Health")
+    ULMAHealthComponent *HealthComponent;
 
 	virtual void BeginPlay() override;
 
