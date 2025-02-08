@@ -24,6 +24,15 @@ protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
     UCameraComponent *CameraComponent;
 
+    UPROPERTY()
+    UDecalComponent *CurrentCursor = nullptr;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cursor")
+    UMaterialInterface *CursorMaterial = nullptr;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cursor")
+    FVector CursorSize = FVector(20.0f, 40.0f, 40.0f);
+
 	virtual void BeginPlay() override;
 
 public:	

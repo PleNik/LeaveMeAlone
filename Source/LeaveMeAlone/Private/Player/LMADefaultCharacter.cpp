@@ -5,6 +5,8 @@
 #include "Components/DecalComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 
 ALMADefaultCharacter::ALMADefaultCharacter()
 {
@@ -23,12 +25,20 @@ ALMADefaultCharacter::ALMADefaultCharacter()
     CameraComponent->SetFieldOfView(FOV);
     CameraComponent->bUsePawnControlRotation = false;
 
+    bUseControllerRotationPitch = false;
+    bUseControllerRotationYaw = false;
+    bUseControllerRotationRoll = false;
 
 }
 
 void ALMADefaultCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+     if (CursorMaterial)
+     {
+        CurrentCursor = UGameplayStatics::SpawnDecalAtLocation(GetWorld(), CursorMaterial, CursorSize, FVector(0));
+     }
 	
 }
 
@@ -36,6 +46,19 @@ void ALMADefaultCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+    APlayerController *PC = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+        if (PC)
+        {
+          FHitResult ResultHit;
+          PC->GetHitResultUnderCursor(ECC_GameTraceChannel1, true, ResultHit);
+          float FindRotatorResultYaw = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(),
+              ResultHit.Location).Yaw;
+          SetActorRotation(FQuat(FRotator(0.0f, FindRotatorResultYaw, 0.0f)));
+          if (CurrentCursor)
+          {
+            CurrentCursor->SetWorldLocation(ResultHit.Location);
+          }
+        }
 }
 
 void ALMADefaultCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
