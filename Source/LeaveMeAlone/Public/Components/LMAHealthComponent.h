@@ -27,6 +27,9 @@ public:
 	UFUNCTION(BlueprintCallable)
     bool IsDead() const;
 
+	bool AddHealth(float NewHealth);
+    bool IsHealthFull() const;
+
     FOnDeathSignature OnDeath;
     FOnHealthChangedSignature OnHealthChanged;
 

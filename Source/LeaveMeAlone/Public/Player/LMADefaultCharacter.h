@@ -19,6 +19,12 @@ class LEAVEMEALONE_API ALMADefaultCharacter : public ACharacter
 public:
 	ALMADefaultCharacter();
 
+    UFUNCTION()
+    ULMAHealthComponent *GetHealthComponent() const 
+    {
+          return HealthComponent;
+    }  
+
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
     USpringArmComponent *SpringArmComponent;
