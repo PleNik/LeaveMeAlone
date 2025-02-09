@@ -51,19 +51,10 @@ void ALMADefaultCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-    APlayerController *PC = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-        if (PC)
-        {
-          FHitResult ResultHit;
-          PC->GetHitResultUnderCursor(ECC_GameTraceChannel1, true, ResultHit);
-          float FindRotatorResultYaw = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(),
-              ResultHit.Location).Yaw;
-          SetActorRotation(FQuat(FRotator(0.0f, FindRotatorResultYaw, 0.0f)));
-          if (CurrentCursor)
-          {
-            CurrentCursor->SetWorldLocation(ResultHit.Location);
-          }
-        }
+   if (!(HealthComponent->IsDead()))
+   {
+          RotationPlayerOnCursor();
+   }
 }
 
 void ALMADefaultCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -110,8 +101,30 @@ void ALMADefaultCharacter::CameraZoomOut()
 
 void ALMADefaultCharacter::OnDeath() 
 {
+  CurrentCursor->DestroyRenderState_Concurrent();
   PlayAnimMontage(DeathMontage);
   GetCharacterMovement()->DisableMovement();
   SetLifeSpan(5.0f);
+
+  if (Controller) 
+  {
+    Controller->ChangeState(NAME_Spectating);
+  }
+}
+
+void ALMADefaultCharacter::RotationPlayerOnCursor() 
+{
+  APlayerController *PC = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+  if (PC) {
+    FHitResult ResultHit;
+    PC->GetHitResultUnderCursor(ECC_GameTraceChannel1, true, ResultHit);
+    float FindRotatorResultYaw = UKismetMathLibrary::FindLookAtRotation(
+                                     GetActorLocation(), ResultHit.Location)
+                                     .Yaw;
+    SetActorRotation(FQuat(FRotator(0.0f, FindRotatorResultYaw, 0.0f)));
+    if (CurrentCursor) {
+      CurrentCursor->SetWorldLocation(ResultHit.Location);
+    }
+  }
 }
 

@@ -69,6 +69,8 @@ private:
 
     void OnDeath();
 
+    void RotationPlayerOnCursor();
+
     float YRotation = -75.0f;
     float ArmLength = 1400.0f;
     float FOV = 55.0f;
