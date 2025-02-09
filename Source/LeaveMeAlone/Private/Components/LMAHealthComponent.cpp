@@ -19,6 +19,7 @@ void ULMAHealthComponent::OnTakeAnyDamage(AActor *DamagedActor, float Damage,
     return;
 
   Health = FMath::Clamp(Health - Damage, 0.0f, MaxHealth);
+  OnHealthChanged.Broadcast(Health);
 
   if (IsDead()) 
   {
@@ -37,6 +38,7 @@ void ULMAHealthComponent::BeginPlay()
 	Super::BeginPlay();
 
 	Health = MaxHealth;
+    OnHealthChanged.Broadcast(Health);
 
 	AActor* OwnerComponent = GetOwner();
         if (OwnerComponent) 

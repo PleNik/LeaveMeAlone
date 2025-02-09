@@ -44,7 +44,10 @@ void ALMADefaultCharacter::BeginPlay()
      {
         CurrentCursor = UGameplayStatics::SpawnDecalAtLocation(GetWorld(), CursorMaterial, CursorSize, FVector(0));
      }
+
+     OnHealthChanged(HealthComponent->GetHealth());
      HealthComponent->OnDeath.AddUObject(this, &ALMADefaultCharacter::OnDeath);
+     HealthComponent->OnHealthChanged.AddUObject(this, &ALMADefaultCharacter::OnHealthChanged);
 }
 
 void ALMADefaultCharacter::Tick(float DeltaTime)
@@ -110,6 +113,11 @@ void ALMADefaultCharacter::OnDeath()
   {
     Controller->ChangeState(NAME_Spectating);
   }
+}
+
+void ALMADefaultCharacter::OnHealthChanged(float NewHealth) 
+{
+  GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FString::Printf(TEXT("Health = %f"), NewHealth));
 }
 
 void ALMADefaultCharacter::RotationPlayerOnCursor() 

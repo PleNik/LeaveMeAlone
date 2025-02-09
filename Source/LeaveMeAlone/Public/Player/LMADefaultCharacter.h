@@ -69,6 +69,8 @@ private:
 
     void OnDeath();
 
+    void OnHealthChanged(float NewHealth);
+
     void RotationPlayerOnCursor();
 
     float YRotation = -75.0f;

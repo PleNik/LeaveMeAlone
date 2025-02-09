@@ -7,6 +7,7 @@
 #include "LMAHealthComponent.generated.h"
 
 DECLARE_MULTICAST_DELEGATE(FOnDeathSignature);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnHealthChangedSignature, float);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class LEAVEMEALONE_API ULMAHealthComponent : public UActorComponent
@@ -26,8 +27,8 @@ public:
 	UFUNCTION(BlueprintCallable)
     bool IsDead() const;
 
-	//UPROPERTY(BlueprintAssignable)
     FOnDeathSignature OnDeath;
+    FOnHealthChangedSignature OnHealthChanged;
 
 protected:
      UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
