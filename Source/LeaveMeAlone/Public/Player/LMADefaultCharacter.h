@@ -9,7 +9,7 @@
 class UCameraComponent;
 class USpringArmComponent;
 class ULMAHealthComponent;
-class UanimMontage;
+class UAnimMontage;
 
 UCLASS()
 class LEAVEMEALONE_API ALMADefaultCharacter : public ACharacter
@@ -66,6 +66,8 @@ private:
 
     void CameraZoomIn();
     void CameraZoomOut();
+
+    void OnDeath();
 
     float YRotation = -75.0f;
     float ArmLength = 1400.0f;
