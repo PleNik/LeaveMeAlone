@@ -15,7 +15,20 @@ void ULMAHealthComponent::OnTakeAnyDamage(AActor *DamagedActor, float Damage,
                                           AController *InstigatedBy,
                                           AActor *DamageCauser) 
 {
-  Health -= Damage;
+  if (IsDead())
+    return;
+
+  Health = FMath::Clamp(Health - Damage, 0.0f, MaxHealth);
+
+  if (IsDead()) 
+  {
+    OnDeath.Broadcast();
+  }
+}
+
+bool ULMAHealthComponent::IsDead() const 
+{ 
+   return Health <= 0.0f; 
 }
 
 

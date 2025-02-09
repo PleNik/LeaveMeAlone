@@ -6,6 +6,8 @@
 #include "Components/ActorComponent.h"
 #include "LMAHealthComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDeathSignature);
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class LEAVEMEALONE_API ULMAHealthComponent : public UActorComponent
@@ -21,6 +23,12 @@ public:
 	UFUNCTION()
 	void OnTakeAnyDamage(AActor *DamagedActor, float Damage, const class UDamageType *DamageType,
                          class AController *InstigatedBy, AActor *DamageCauser);
+
+	UFUNCTION(BlueprintCallable)
+    bool IsDead() const;
+
+	UPROPERTY(BlueprintAssignable)
+    FOnDeathSignature OnDeath;
 
 protected:
      UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
