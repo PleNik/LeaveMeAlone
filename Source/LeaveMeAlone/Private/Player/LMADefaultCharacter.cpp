@@ -48,6 +48,10 @@ void ALMADefaultCharacter::BeginPlay()
      OnHealthChanged(HealthComponent->GetHealth());
      HealthComponent->OnDeath.AddUObject(this, &ALMADefaultCharacter::OnDeath);
      HealthComponent->OnHealthChanged.AddUObject(this, &ALMADefaultCharacter::OnHealthChanged);
+
+     Stamina = MaxStamina;
+
+     RegenStamina();
 }
 
 void ALMADefaultCharacter::Tick(float DeltaTime)
@@ -57,6 +61,18 @@ void ALMADefaultCharacter::Tick(float DeltaTime)
    if (!(HealthComponent->IsDead()))
    {
           RotationPlayerOnCursor();
+   }
+
+   if (IsSprinting && Stamina != 0.0f) {
+     DrainStamina();
+   } else {
+     if (!IsSprinting && Stamina != 100.0f) {
+       RegenStamina();
+     }
+   }
+
+   if (FMath::IsNearlyZero(Stamina)) {
+     StopSprint();
    }
 }
 
@@ -69,6 +85,9 @@ void ALMADefaultCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 
     PlayerInputComponent->BindAction("CameraZoomIn", IE_Pressed, this, &ALMADefaultCharacter::CameraZoomIn);
     PlayerInputComponent->BindAction("CameraZoomOut", IE_Pressed, this, &ALMADefaultCharacter::CameraZoomOut);
+
+     PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &ALMADefaultCharacter::StartSprint);
+    PlayerInputComponent->BindAction("Sprint", IE_Released, this, &ALMADefaultCharacter::StopSprint);
 
 }
 
@@ -134,5 +153,35 @@ void ALMADefaultCharacter::RotationPlayerOnCursor()
       CurrentCursor->SetWorldLocation(ResultHit.Location);
     }
   }
+}
+
+void ALMADefaultCharacter::StartSprint() 
+{
+  IsSprinting = true;
+  GetCharacterMovement()->MaxWalkSpeed = 600.0f;
+
+  DrainStamina();
+}
+
+void ALMADefaultCharacter::StopSprint() 
+{
+  IsSprinting = false;
+  GetCharacterMovement()->MaxWalkSpeed = 300.0f;
+
+  RegenStamina();
+}
+
+void ALMADefaultCharacter::DrainStamina() 
+{
+  Stamina = FMath::Clamp(Stamina - DamageStamina, 0.0f, MaxStamina);
+
+  GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("Drain Stamina %f"), Stamina));
+}
+
+void ALMADefaultCharacter::RegenStamina() 
+{
+  Stamina = FMath::Clamp(Stamina + DamageStamina, 0.0f, MaxStamina);
+
+  GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, FString::Printf(TEXT("Regen Stamina %f"), Stamina));
 }
 
