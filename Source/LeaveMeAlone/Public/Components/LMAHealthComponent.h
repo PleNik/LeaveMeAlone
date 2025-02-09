@@ -18,6 +18,10 @@ public:
 	UFUNCTION(BlueprintCallable)
     float GetHealth() const { return Health; }
 
+	UFUNCTION()
+	void OnTakeAnyDamage(AActor *DamagedActor, float Damage, const class UDamageType *DamageType,
+                         class AController *InstigatedBy, AActor *DamageCauser);
+
 protected:
      UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
      float MaxHealth = 100.0f;
