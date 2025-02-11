@@ -16,10 +16,20 @@ class LEAVEMEALONE_API ALMABaseWeapon : public AActor
 public:	
 	ALMABaseWeapon();
 
+	void Fire();
+
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Weapon")
     USkeletalMeshComponent* WeaponMesh;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+    float TraceDistance = 800.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+    FName MuzzleSocket = "Muzzle";
+
 	virtual void BeginPlay() override;
+
+	void Shoot();
 
 };

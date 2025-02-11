@@ -18,6 +18,8 @@ class LEAVEMEALONE_API ULMAWeaponComponent : public UActorComponent
 public:	
 	ULMAWeaponComponent();
 
+	void Fire();
+
 protected:
     UPROPERTY(EditDefaultsOnly, Category = "Weapon")
     TSubclassOf<ALMABaseWeapon> WeaponClass;

@@ -12,6 +12,13 @@ ULMAWeaponComponent::ULMAWeaponComponent()
 
 }
 
+void ULMAWeaponComponent::Fire()
+{
+  if (Weapon) {
+    Weapon->Fire();
+  }
+}
+
 void ULMAWeaponComponent::BeginPlay()
 {
 	Super::BeginPlay();
