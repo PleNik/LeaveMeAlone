@@ -2,10 +2,13 @@
 
 
 #include "Components/LMAWeaponComponent.h"
+//#include "Animations/LMAReloadFinishedAnimNotify.h"
+#include "GameFramework/Character.h"
+#include "Weapon/LMABaseWeapon.h"
 
 ULMAWeaponComponent::ULMAWeaponComponent()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 }
 
@@ -13,13 +16,22 @@ void ULMAWeaponComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-
+    SpawnWeapon();
 }
 
-
-void ULMAWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void ULMAWeaponComponent::SpawnWeapon()
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
+  //if (!GetWorld())
+    //return;
+    Weapon = GetWorld()->SpawnActor<ALMABaseWeapon>(WeaponClass);
+    if (Weapon)
+    {
+       const auto Character = Cast<ACharacter>(GetOwner());
+       if (Character)
+       {
+         FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, false);
+         Weapon->AttachToComponent(Character->GetMesh(), AttachmentRules, WeaponSocket);
+       }
+    }
 }
 
