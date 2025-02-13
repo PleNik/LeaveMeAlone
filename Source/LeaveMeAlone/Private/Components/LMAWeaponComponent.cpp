@@ -33,6 +33,7 @@ void ULMAWeaponComponent::BeginPlay()
 	Super::BeginPlay();
 
     SpawnWeapon();
+    InitAnimNotify();
 }
 
 void ULMAWeaponComponent::SpawnWeapon()
