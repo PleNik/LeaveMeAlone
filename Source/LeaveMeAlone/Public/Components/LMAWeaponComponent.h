@@ -19,6 +19,7 @@ public:
 	ULMAWeaponComponent();
 
 	void Fire();
+    void Reload();
 
 protected:
     UPROPERTY(EditDefaultsOnly, Category = "Weapon")
@@ -27,6 +28,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
     FName WeaponSocket = "r_Weapon_Socket";
 
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+    UAnimMontage *ReloadMontage;
+
 	virtual void BeginPlay() override;
 
 
@@ -34,6 +38,12 @@ private:
    UPROPERTY()
    ALMABaseWeapon* Weapon = nullptr;
 
+   bool AnimReloading = false;
+
    void SpawnWeapon();
+   void InitAnimNotify();
+
+   void OnNotifyReloadFinished(USkeletalMeshComponent *SkeletalMesh);
+   bool CanReload() const;
 		
 };
