@@ -13,9 +13,9 @@ class LEAVEMEALONE_API ULMAReloadFinishedAnimNotify : public UAnimNotify
 {
 	GENERATED_BODY()
 
-	public:
-        virtual void Notify(USkeletalMeshComponent *MeshComp, UAnimSequenceBase *Animation) override;
+public:
+    virtual void Notify(USkeletalMeshComponent *MeshComp, UAnimSequenceBase *Animation) override;
 
-        FOnNotifyReloadFinishedSignature OnNotifyReloadFinished;
+    FOnNotifyReloadFinishedSignature OnNotifyReloadFinished;
 	
 };

@@ -60,7 +60,8 @@ void ULMAWeaponComponent::InitAnimNotify()
   const auto NotifiesEvents = ReloadMontage->Notifies;
   for (auto NotifyEvent : NotifiesEvents) {
     auto ReloadFinish = Cast<ULMAReloadFinishedAnimNotify>(NotifyEvent.Notify);
-    if (ReloadFinish) {
+    if (ReloadFinish) 
+    {
       ReloadFinish->OnNotifyReloadFinished.AddUObject(this, &ULMAWeaponComponent::OnNotifyReloadFinished);
       break;
     }
@@ -79,5 +80,6 @@ void ULMAWeaponComponent::OnNotifyReloadFinished(USkeletalMeshComponent *Skeleta
 bool ULMAWeaponComponent::CanReload() const
 { 
     return !AnimReloading;
+  
 }
 
