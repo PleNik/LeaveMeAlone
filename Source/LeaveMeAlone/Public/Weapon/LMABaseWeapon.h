@@ -38,7 +38,7 @@ public:
 
 	bool IsCurrentClipEmpty() const;
 
-	FTimerHandle DcrmBullts;
+	FTimerHandle ShootTimer;
 
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Weapon")

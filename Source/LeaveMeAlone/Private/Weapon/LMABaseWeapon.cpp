@@ -18,19 +18,18 @@ ALMABaseWeapon::ALMABaseWeapon()
 
 void ALMABaseWeapon::Fire()
 {
-  if (!CanShooting())
+  if (!CanShooting() || IsCurrentClipEmpty())
     return;
   Shooting = true;
-  if (!IsCurrentClipEmpty()) 
-  {
-    Shoot();
-  }
-   
+ 
+  GetWorldTimerManager().SetTimer(ShootTimer, this, &ALMABaseWeapon::Shoot, 0.1f, true, -1.0f);
+  // Shoot();
 }
 
 void ALMABaseWeapon::StopFire()
 { 
 	Shooting = false;
+	GetWorldTimerManager().ClearTimer(ShootTimer);
 }
 
 void ALMABaseWeapon::BeginPlay() 
@@ -49,6 +48,8 @@ void ALMABaseWeapon::ChangeClip()
 
 void ALMABaseWeapon::Shoot()
 {
+  if (IsCurrentClipEmpty())
+    return;
   const FTransform SocketTransform = WeaponMesh->GetSocketTransform(MuzzleSocket);
   const FVector TraceStart = SocketTransform.GetLocation();
   const FVector ShootDirection = SocketTransform.GetRotation().GetForwardVector();
@@ -63,7 +64,9 @@ void ALMABaseWeapon::Shoot()
     DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 5.0f, 24, FColor::Red, false, 1.0f);
   }
 
-  DecrementBullets();
+  if (!IsCurrentClipEmpty ())
+    DecrementBullets();
+  
 }
 
 void ALMABaseWeapon::DecrementBullets()

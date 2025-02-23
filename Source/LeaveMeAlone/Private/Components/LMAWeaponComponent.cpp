@@ -14,7 +14,8 @@ ULMAWeaponComponent::ULMAWeaponComponent()
 
 void ULMAWeaponComponent::Fire()
 {
-  if (Weapon && !AnimReloading) {
+  if (Weapon && !AnimReloading)
+  {
     Weapon->Fire();
   }
 }
