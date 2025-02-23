@@ -27,7 +27,7 @@ void ULMAWeaponComponent::StopFire()
 
 void ULMAWeaponComponent::Reload()
 {
-  if (!CanReload() && !Weapon->IsCurrentClipEmpty())
+  if (!CanReload() || Weapon->IsCurrentClipFull())
     return;
   Weapon->ChangeClip();
   AnimReloading = true;

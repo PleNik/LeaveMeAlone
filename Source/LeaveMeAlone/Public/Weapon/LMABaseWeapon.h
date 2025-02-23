@@ -37,6 +37,7 @@ public:
     void ChangeClip();
 
 	bool IsCurrentClipEmpty() const;
+    bool IsCurrentClipFull() const;
 
 	FTimerHandle ShootTimer;
 

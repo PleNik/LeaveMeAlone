@@ -80,6 +80,12 @@ bool ALMABaseWeapon::IsCurrentClipEmpty() const
 	return CurrentAmmoWeapon.Bullets <= 0;
 }
 
+bool ALMABaseWeapon::IsCurrentClipFull() const
+{
+  return CurrentAmmoWeapon.Bullets == DefaultAmmoWeapon.Bullets;
+  
+}
+
 bool ALMABaseWeapon::CanShooting() 
 { 
 	return !Shooting; 
