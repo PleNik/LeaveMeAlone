@@ -4,6 +4,7 @@
 #include "Weapon/LMABaseWeapon.h"
 #include "Components/SkeletalMeshComponent.h"
 
+
 DEFINE_LOG_CATEGORY_STATIC(LogWeapon, All, All);
 
 ALMABaseWeapon::ALMABaseWeapon()
@@ -16,8 +17,20 @@ ALMABaseWeapon::ALMABaseWeapon()
 }
 
 void ALMABaseWeapon::Fire()
+{
+  if (!CanShooting())
+    return;
+  Shooting = true;
+  if (!IsCurrentClipEmpty()) 
+  {
+    Shoot();
+  }
+   
+}
+
+void ALMABaseWeapon::StopFire()
 { 
-	Shoot(); 
+	Shooting = false;
 }
 
 void ALMABaseWeapon::BeginPlay() 
@@ -57,14 +70,15 @@ void ALMABaseWeapon::DecrementBullets()
 {
   CurrentAmmoWeapon.Bullets--;
   UE_LOG(LogWeapon, Display, TEXT("Bullets = %s"), *FString::FromInt(CurrentAmmoWeapon.Bullets));
-
-  if (IsCurrentClipEmpty())
-  {
-    ChangeClip();
-  }
 }
 
 bool ALMABaseWeapon::IsCurrentClipEmpty() const 
 { 
-	return CurrentAmmoWeapon.Bullets == 0;
+	return CurrentAmmoWeapon.Bullets <= 0;
 }
+
+bool ALMABaseWeapon::CanShooting() 
+{ 
+	return !Shooting; 
+}
+

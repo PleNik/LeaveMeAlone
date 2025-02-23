@@ -19,10 +19,16 @@ void ULMAWeaponComponent::Fire()
   }
 }
 
+void ULMAWeaponComponent::StopFire() 
+{ 
+    Weapon->StopFire();
+}
+
 void ULMAWeaponComponent::Reload()
 {
-  if (!CanReload())
+  if (!CanReload() && !Weapon->IsCurrentClipEmpty())
     return;
+  Weapon->ChangeClip();
   AnimReloading = true;
   ACharacter *Character = Cast<ACharacter>(GetOwner());
   Character->PlayAnimMontage(ReloadMontage);

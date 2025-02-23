@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "LMABaseWeapon.generated.h"
 
+
 class USkeletalMeshComponent;
 
 USTRUCT(BlueprintType)
@@ -32,7 +33,12 @@ public:
 	ALMABaseWeapon();
 
 	void Fire();
+    void StopFire();
     void ChangeClip();
+
+	bool IsCurrentClipEmpty() const;
+
+	FTimerHandle DcrmBullts;
 
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Weapon")
@@ -52,9 +58,13 @@ protected:
 	void Shoot();
 
 	void DecrementBullets();
-    bool IsCurrentClipEmpty() const;
+   
 
 private:
     FAmmoWeapon CurrentAmmoWeapon;
+
+	bool Shooting = false;
+
+	bool CanShooting();
 
 };

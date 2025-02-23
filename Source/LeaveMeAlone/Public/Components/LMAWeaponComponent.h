@@ -19,6 +19,7 @@ public:
 	ULMAWeaponComponent();
 
 	void Fire();
+    void StopFire();
     void Reload();
 
 protected:
