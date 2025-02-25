@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "LMABaseWeapon.generated.h"
 
+DECLARE_MULTICAST_DELEGATE(FEmptyClipSignature)
+
 
 class USkeletalMeshComponent;
 
@@ -31,6 +33,8 @@ class LEAVEMEALONE_API ALMABaseWeapon : public AActor
 	
 public:	
 	ALMABaseWeapon();
+
+	FEmptyClipSignature EmptyClip;
 
 	void Fire();
     void StopFire();

@@ -73,6 +73,11 @@ void ALMABaseWeapon::DecrementBullets()
 {
   CurrentAmmoWeapon.Bullets--;
   UE_LOG(LogWeapon, Display, TEXT("Bullets = %s"), *FString::FromInt(CurrentAmmoWeapon.Bullets));
+
+  if (IsCurrentClipEmpty())
+  {
+    EmptyClip.Broadcast();
+  }
 }
 
 bool ALMABaseWeapon::IsCurrentClipEmpty() const 

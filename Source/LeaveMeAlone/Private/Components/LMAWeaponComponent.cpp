@@ -27,7 +27,12 @@ void ULMAWeaponComponent::StopFire()
 
 void ULMAWeaponComponent::Reload()
 {
-  if (!CanReload() || Weapon->IsCurrentClipFull())
+    AutoReload(); 
+}
+
+void ULMAWeaponComponent::AutoReload() 
+{
+  if (!CanReload())
     return;
   Weapon->ChangeClip();
   AnimReloading = true;
@@ -57,6 +62,8 @@ void ULMAWeaponComponent::SpawnWeapon()
          Weapon->AttachToComponent(Character->GetMesh(), AttachmentRules, WeaponSocket);
        }
     }
+
+    Weapon->EmptyClip.AddUObject(this, &ULMAWeaponComponent::EmptyClipCallback);
 }
 
 void ULMAWeaponComponent::InitAnimNotify()
@@ -86,7 +93,11 @@ void ULMAWeaponComponent::OnNotifyReloadFinished(USkeletalMeshComponent *Skeleta
 
 bool ULMAWeaponComponent::CanReload() const
 { 
-    return !AnimReloading;
-  
+    return !(AnimReloading || Weapon->IsCurrentClipFull());
+}
+
+void ULMAWeaponComponent::EmptyClipCallback()
+{ 
+    AutoReload();
 }
 

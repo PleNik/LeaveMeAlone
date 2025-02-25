@@ -21,6 +21,7 @@ public:
 	void Fire();
     void StopFire();
     void Reload();
+    void AutoReload();
 
 protected:
     UPROPERTY(EditDefaultsOnly, Category = "Weapon")
@@ -46,5 +47,7 @@ private:
 
    void OnNotifyReloadFinished(USkeletalMeshComponent *SkeletalMesh);
    bool CanReload() const;
+
+   void EmptyClipCallback();
 		
 };
