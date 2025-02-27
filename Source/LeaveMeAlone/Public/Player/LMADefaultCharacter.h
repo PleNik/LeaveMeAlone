@@ -24,7 +24,10 @@ public:
     ULMAHealthComponent *GetHealthComponent() const 
     {
           return HealthComponent;
-    }  
+    } 
+
+    UFUNCTION(BlueprintImplementableEvent)
+    void OnHealthChanged(float NewHealth);
 
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
@@ -88,8 +91,7 @@ private:
 
     void OnDeath();
 
-    void OnHealthChanged(float NewHealth);
-
+    //void OnHealthChanged(float NewHealth);
     void RotationPlayerOnCursor();
 
     void StartSprint();
