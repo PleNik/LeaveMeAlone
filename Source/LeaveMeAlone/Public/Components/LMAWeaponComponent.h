@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include <Weapon/LMABaseWeapon.h>
 #include "LMAWeaponComponent.generated.h"
 
 class ALMABaseWeapon;
@@ -22,6 +23,9 @@ public:
     void StopFire();
     void Reload();
     void AutoReload();
+
+	UFUNCTION(BlueprintCallable)
+    bool GetCurrentWeaponAmmmo(FAmmoWeapon &AmmoWeapon) const;
 
 protected:
     UPROPERTY(EditDefaultsOnly, Category = "Weapon")

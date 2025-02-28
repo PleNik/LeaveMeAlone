@@ -40,6 +40,16 @@ void ULMAWeaponComponent::AutoReload()
   Character->PlayAnimMontage(ReloadMontage);
 }
 
+bool ULMAWeaponComponent::GetCurrentWeaponAmmmo(FAmmoWeapon &AmmoWeapon) const 
+{
+    if (Weapon)
+    {
+      AmmoWeapon = Weapon->GetCurrentAmmoWeapon();
+      return true;
+    }
+    return false;
+}
+
 void ULMAWeaponComponent::BeginPlay()
 {
 	Super::BeginPlay();

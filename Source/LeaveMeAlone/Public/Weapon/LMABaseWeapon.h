@@ -43,6 +43,8 @@ public:
 	bool IsCurrentClipEmpty() const;
     bool IsCurrentClipFull() const;
 
+	FAmmoWeapon GetCurrentAmmoWeapon() const { return CurrentAmmoWeapon; }
+
 	FTimerHandle ShootTimer;
 
 protected:
