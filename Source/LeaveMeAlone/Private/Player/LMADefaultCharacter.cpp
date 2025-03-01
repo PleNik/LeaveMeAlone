@@ -1,6 +1,7 @@
 //  LeaveMeAlone Game by Netologiya. All RightsReserved.
 
 #include "Player/LMADefaultCharacter.h"
+#include "Blueprint/UserWidget.h"
 #include "Camera/CameraComponent.h"
 #include "Components/DecalComponent.h"
 #include "Components/InputComponent.h"
@@ -10,6 +11,8 @@
 #include "Components/LMAHealthComponent.h"
 #include "Components/LMAWeaponComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include <Player/LMAPlayerController.h>
+#include <BaseHUD.h>
 #include "Engine/Engine.h"
 
 ALMADefaultCharacter::ALMADefaultCharacter()
@@ -129,6 +132,21 @@ void ALMADefaultCharacter::CameraZoomOut()
 void ALMADefaultCharacter::OnDeath() 
 {
   CurrentCursor->DestroyRenderState_Concurrent();
+
+  auto PlayerController = Cast<ALMAPlayerController>(Controller);
+
+  if (PlayerController) 
+  {
+    auto HUD = Cast<ABaseHUD>(PlayerController->GetHUD());
+    if (HUD)
+    {
+        for (auto Widget : HUD->WidgetsContainer)
+        {
+            Widget->RemoveFromParent();
+        }
+    }
+  }
+
   PlayAnimMontage(DeathMontage);
   GetCharacterMovement()->DisableMovement();
   SetLifeSpan(5.0f);
@@ -139,10 +157,6 @@ void ALMADefaultCharacter::OnDeath()
   }
 }
 
-//void ALMADefaultCharacter::OnHealthChanged(float NewHealth) 
-//{
-  //GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FString::Printf(TEXT("Health = %f"), NewHealth));
-//}
 
 void ALMADefaultCharacter::RotationPlayerOnCursor() 
 {
