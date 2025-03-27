@@ -5,7 +5,7 @@
 
 ULMAHealthComponent::ULMAHealthComponent()
 {
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = true;
 
 
 }
